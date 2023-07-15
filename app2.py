@@ -54,7 +54,7 @@ def main():
 
             # Separate features and target variable
             X = df.drop('User_Interactions', axis=1)
-            y = df['Rounded_Engagement']
+            y = df['User_Interactions']
 
             # Preprocess categorical columns
             categorical_cols = X.select_dtypes(include=['object']).columns
@@ -84,10 +84,17 @@ def main():
             st.write("Backward Elimination:")
             selected_features_be, worst_features_be = backward_elimination(X_encoded, y, k)
             st.write("Top Features:", selected_features_be)
-            st.write("Bottom Features:", worst_features_be)
+            st.write("Bottom Features:")
+            for feature in worst_features_be:
+                st.write("-", feature)
 
         except Exception as e:
             st.error("Error: " + str(e))
+
+# Run the app
+if __name__ == "__main__":
+    main()
+
 
 # Run the app
 if __name__ == "__main__":
