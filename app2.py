@@ -53,7 +53,7 @@ def main():
             df.drop(['User_ID', 'User_Engagement'], axis=1, inplace=True)
 
             # Separate features and target variable
-            X = df.drop('User_Interactions', axis=1)
+            X = df.drop('Rounded_Engagement', axis=1)
             y = df['Rounded_Engagement']
 
             # Preprocess categorical columns
