@@ -26,6 +26,7 @@ def backward_elimination(X, y, k):
         model = LinearRegression()
         model.fit(X_be, y)
         p_values = pd.Series(model.coef_, index=X_be.columns)
+        worst_features.extend(p_values.nsmallest(5).index.tolist())
         worst_feature = p_values.idxmax()
         worst_features.append(worst_feature)
         X_be.drop(worst_feature, axis=1, inplace=True)
@@ -85,7 +86,7 @@ def main():
             selected_features_be, worst_features_be = backward_elimination(X_encoded, y, k)
             st.write("Top Features:", selected_features_be)
             st.write("Bottom Features:")
-            for feature in worst_features_be:
+            for feature in worst_features_be[-5:]:
                 st.write("-", feature)
 
         except Exception as e:
@@ -94,4 +95,3 @@ def main():
 # Run the app
 if __name__ == "__main__":
     main()
-
