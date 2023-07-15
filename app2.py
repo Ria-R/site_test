@@ -54,8 +54,8 @@ def main():
             df.drop(['User_ID', 'User_Engagement','Access_Time'], axis=1, inplace=True)
 
             # Separate features and target variable
-            X = df.drop('User_Interaction', axis=1)
-            y = df['User_Interaction']
+            X = df.drop('User_Interactions', axis=1)
+            y = df['User_Interactions']
 
             # Preprocess categorical columns
             categorical_cols = X.select_dtypes(include=['object']).columns
