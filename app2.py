@@ -27,6 +27,8 @@ def backward_elimination(X, y, k):
         model.fit(X_be, y)
         p_values = pd.Series(model.coef_, index=X_be.columns)
         worst_feature = p_values.idxmax()
+        if worst_feature in selected_features:
+            break
         worst_features.append(worst_feature)
         selected_features.append(worst_feature)
         X_be.drop(worst_feature, axis=1, inplace=True)
@@ -85,7 +87,8 @@ def main():
             selected_features_be, worst_features_be = backward_elimination(X_encoded, y, k)
             st.write("Top Features:")
             for feature in selected_features_be:
-                st.write("-", feature)
+                if feature not in worst_features_be:
+                    st.write("-", feature)
             st.write("Bottom Features:")
             for feature in worst_features_be:
                 if feature not in selected_features_be:
