@@ -85,14 +85,11 @@ def main():
             # Backward Elimination
             st.write("Backward Elimination:")
             selected_features_be, worst_features_be = backward_elimination(X_encoded, y, k)
-            st.write("Top Features:")
-            for feature in selected_features_be:
-                if feature not in worst_features_be:
-                    st.write("-", feature)
+            st.write("Top Features:", selected_features_be)
             st.write("Bottom Features:")
             for feature in worst_features_be:
                 if feature not in selected_features_be:
-                    st.write("-", feature)
+                    st.write(feature)
 
         except Exception as e:
             st.error("Error: " + str(e))
