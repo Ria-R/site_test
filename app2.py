@@ -28,7 +28,7 @@ def backward_elimination(X, y, k):
         p_values = pd.Series(model.coef_, index=X_be.columns)
         worst_feature = p_values.idxmax()
         if worst_feature in selected_features:
-            break
+            continue
         worst_features.append(worst_feature)
         selected_features.append(worst_feature)
         X_be.drop(worst_feature, axis=1, inplace=True)
@@ -100,3 +100,4 @@ def main():
 # Run the app
 if __name__ == "__main__":
     main()
+
