@@ -51,7 +51,7 @@ def main():
             st.dataframe(df)
 
             # Drop unnecessary columns
-            df.drop(['User_ID', 'User_Engagement'], axis=1, inplace=True)
+            df.drop(['User_ID', 'User_Engagement','Access_Time'], axis=1, inplace=True)
 
             # Separate features and target variable
             X = df.drop('User_Interactions', axis=1)
