@@ -26,12 +26,11 @@ def backward_elimination(X, y, k):
         model = LinearRegression()
         model.fit(X_be, y)
         p_values = pd.Series(model.coef_, index=X_be.columns)
+        worst_features.extend(p_values.nsmallest(5).index.tolist())
         worst_feature = p_values.idxmax()
-        if worst_feature in selected_features:
-            continue
         worst_features.append(worst_feature)
-        selected_features.append(worst_feature)
         X_be.drop(worst_feature, axis=1, inplace=True)
+        selected_features = X_be.columns
     return selected_features, worst_features
 
 # Streamlit app
@@ -86,11 +85,16 @@ def main():
             st.write("Backward Elimination:")
             selected_features_be, worst_features_be = backward_elimination(X_encoded, y, k)
             st.write("Top Features:", selected_features_be)
-            st.write("Bottom Features:", worst_features_be)
-
+            st.write("Bottom Features:")
+            for feature in worst_features_be[-5:]:
+                st.write("-", feature)
 
         except Exception as e:
             st.error("Error: " + str(e))
+
+# Run the app
+if __name__ == "__main__":
+    main()
 
 # Run the app
 if __name__ == "__main__":
