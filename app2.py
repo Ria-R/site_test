@@ -26,11 +26,10 @@ def backward_elimination(X, y, k):
         model = LinearRegression()
         model.fit(X_be, y)
         p_values = pd.Series(model.coef_, index=X_be.columns)
-        worst_features.extend(p_values.nsmallest(5).index.tolist())
         worst_feature = p_values.idxmax()
         worst_features.append(worst_feature)
+        selected_features.append(worst_feature)
         X_be.drop(worst_feature, axis=1, inplace=True)
-        selected_features = X_be.columns
     return selected_features, worst_features
 
 # Streamlit app
@@ -54,8 +53,8 @@ def main():
             df.drop(['User_ID', 'User_Engagement'], axis=1, inplace=True)
 
             # Separate features and target variable
-            X = df.drop('Rounded_Engagement', axis=1)
-            y = df['Rounded_Engagement']
+            X = df.drop('User_Interactions', axis=1)
+            y = df['User_Interactions']
 
             # Preprocess categorical columns
             categorical_cols = X.select_dtypes(include=['object']).columns
@@ -84,10 +83,13 @@ def main():
             # Backward Elimination
             st.write("Backward Elimination:")
             selected_features_be, worst_features_be = backward_elimination(X_encoded, y, k)
-            st.write("Top Features:", selected_features_be)
-            st.write("Bottom Features:")
-            for feature in worst_features_be[-5:]:
+            st.write("Top Features:")
+            for feature in selected_features_be:
                 st.write("-", feature)
+            st.write("Bottom Features:")
+            for feature in worst_features_be:
+                if feature not in selected_features_be:
+                    st.write("-", feature)
 
         except Exception as e:
             st.error("Error: " + str(e))
